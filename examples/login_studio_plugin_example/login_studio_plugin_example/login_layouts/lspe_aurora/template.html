@@ -1,0 +1,20 @@
+<div class="ls-root lspe-aurora" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<div class="lspe-aurora__glow" aria-hidden="true"></div>
+	<div class="lspe-aurora__inner">
+		<header class="lspe-aurora__brand">
+			{{ ls_logo() }}
+			<h1>{{ ls.brand.name }}</h1>
+			{{ ls_slot("hero") }}
+		</header>
+		<section class="lspe-aurora__form">
+			{{ ls_slot("above_form") }}
+			{{ login_form }}
+			{{ ls_slot("below_form") }}
+		</section>
+		<footer class="lspe-aurora__footer">
+			{{ ls_versions() }}
+			{{ ls_slot("footer") }}
+			{{ ls_powered_by() }}
+		</footer>
+	</div>
+</div>

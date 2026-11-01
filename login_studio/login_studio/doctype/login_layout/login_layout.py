@@ -37,7 +37,9 @@ class LoginLayout(Document):
 		validate_layout(self.template, self.css)
 
 	def on_trash(self):
-		if self.source in ("Standard", "Plugin") and not frappe.flags.in_uninstall:
+		if self.source in ("Standard", "Plugin") and not (
+			frappe.flags.in_uninstall or self.flags.from_file_sync
+		):
 			frappe.throw(_("{0} layouts are shipped by an app and cannot be deleted.").format(_(self.source)))
 		if frappe.db.get_single_value("Login Studio Settings", "active_layout") == self.name:
 			frappe.throw(

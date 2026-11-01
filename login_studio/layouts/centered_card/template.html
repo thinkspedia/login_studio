@@ -9,10 +9,14 @@
 					{% if ls.brand.tagline %}<p class="ls-centered__tagline">{{ ls.brand.tagline }}</p>{% endif %}
 				</div>
 			</header>
+			{{ ls_slot("above_form") }}
 			{{ login_form }}
+			{{ ls_slot("below_form") }}
 		</div>
 		<footer class="ls-centered__footer">
+			{{ ls_slot("hero") }}
 			{{ ls_versions() }}
+			{{ ls_slot("footer") }}
 			{{ ls_powered_by() }}
 		</footer>
 	</div>

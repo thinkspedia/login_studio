@@ -1,0 +1,10 @@
+.lspe-help {
+	margin: 0;
+	font-size: 0.8125rem;
+	text-align: center;
+	color: var(--ls-muted);
+}
+.lspe-help a {
+	color: var(--ls-primary);
+	font-weight: 600;
+}

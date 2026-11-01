@@ -1,0 +1,58 @@
+.lspe-aurora {
+	position: relative;
+	isolation: isolate;
+	display: flex;
+	overflow: hidden;
+	background: #0b1020;
+}
+.lspe-aurora__glow {
+	position: absolute;
+	inset: -20%;
+	z-index: -1;
+	background:
+		radial-gradient(40% 35% at 25% 30%, color-mix(in srgb, var(--ls-primary) 70%, transparent), transparent),
+		radial-gradient(35% 30% at 75% 65%, color-mix(in srgb, var(--ls-accent) 60%, transparent), transparent),
+		radial-gradient(30% 30% at 60% 20%, color-mix(in srgb, var(--ls-secondary) 55%, transparent), transparent);
+	filter: blur(40px);
+}
+.lspe-aurora__inner {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	padding: 2rem 1rem;
+}
+.lspe-aurora__brand {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	color: #ffffff;
+	text-align: center;
+}
+.lspe-aurora__brand h1 {
+	margin: 0;
+	font-size: 1.5rem;
+	color: inherit;
+}
+.lspe-aurora__form {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 440px;
+	padding: 2rem 1.5rem;
+	border-radius: var(--ls-radius);
+	background: var(--ls-surface);
+}
+.lspe-aurora__footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	color: rgba(255, 255, 255, 0.8);
+}
+.lspe-aurora__footer .ls-powered-by {
+	color: inherit;
+}

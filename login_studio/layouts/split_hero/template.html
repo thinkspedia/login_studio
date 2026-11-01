@@ -6,14 +6,16 @@
 			<div class="ls-split__headline">
 				<h1 class="ls-split__title">{{ ls.brand.name }}</h1>
 				{% if ls.brand.tagline %}<p class="ls-split__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+				{{ ls_slot("hero") }}
 			</div>
 			{% if ls.versions %}<div class="ls-split__versions">{{ ls_versions() }}</div>{% endif %}
 		</div>
 	</aside>
 	<section class="ls-split__main">
-		<div class="ls-split__form">{{ login_form }}</div>
+		<div class="ls-split__form">{{ ls_slot("above_form") }}{{ login_form }}{{ ls_slot("below_form") }}</div>
 		<footer class="ls-split__footer">
 			{% if ls.versions %}<div class="ls-split__versions-compact">{{ ls_versions() }}</div>{% endif %}
+			{{ ls_slot("footer") }}
 			{{ ls_powered_by() }}
 		</footer>
 	</section>

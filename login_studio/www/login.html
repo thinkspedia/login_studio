@@ -7,7 +7,15 @@
 
 {% block head_include %}
 {{ super() }}
-{% if ls %}<style id="login-studio-css">{{ ls.css }}</style>{% endif %}
+{% if ls %}
+<style id="login-studio-css">{{ ls.css }}</style>
+{% for href in ls.assets.css %}<link rel="stylesheet" href="{{ href }}">{% endfor %}
+{% endif %}
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+{% if ls %}{% for src in ls.assets.js %}<script src="{{ src }}" defer></script>{% endfor %}{% endif %}
 {% endblock %}
 
 {% block page_content %}

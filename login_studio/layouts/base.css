@@ -115,6 +115,20 @@ body:has(.ls-root) .page-footer {
 	outline-offset: 2px;
 }
 
+/* Plugin slots (login_studio_slots hook) */
+.ls-slot--above_form,
+.ls-slot--below_form {
+	width: 100%;
+	max-width: 400px;
+	margin-inline: auto;
+}
+.ls-slot--above_form {
+	margin-block-end: 1.25rem;
+}
+.ls-slot--below_form {
+	margin-block-start: 1.25rem;
+}
+
 /* Background art: built-in SVG or the uploaded photo */
 .ls-bg {
 	position: absolute;
