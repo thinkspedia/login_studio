@@ -37,7 +37,6 @@
    "label": "Enabled"
   },
   {
-   "default": "split_hero",
    "depends_on": "enabled",
    "fieldname": "active_layout",
    "fieldtype": "Link",
@@ -161,7 +160,7 @@
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-01 08:41:19.361745",
+ "modified": "2026-11-01 08:53:36.307927",
  "modified_by": "Administrator",
  "module": "Login Studio",
  "name": "Login Studio Settings",

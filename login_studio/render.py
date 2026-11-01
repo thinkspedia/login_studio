@@ -163,10 +163,14 @@ def build_css(settings, layout) -> str:
 	return "\n".join([root, read_asset("base.css"), layout.css or ""])
 
 
+SHARED_ASSETS = ("base.css", "background.svg")
+
+
 def read_asset(filename: str) -> str:
-	"""Shared files next to the layout folders (base.css, background.svg). Small, read per request."""
-	with open(os.path.join(STANDARD_LAYOUTS_PATH, filename)) as f:
-		return f.read()
+	"""Shared files next to the layout folders. Small, read per request."""
+	if filename not in SHARED_ASSETS:
+		raise ValueError(f"Unknown Login Studio asset: {filename}")
+	return frappe.read_file(os.path.join(STANDARD_LAYOUTS_PATH, filename), raise_not_found=True)
 
 
 def log_render_error() -> None:

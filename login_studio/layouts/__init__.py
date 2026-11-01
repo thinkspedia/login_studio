@@ -13,19 +13,12 @@ STANDARD_LAYOUTS_PATH = os.path.dirname(__file__)
 
 
 def read_layout_folder(path: str) -> dict:
-	with open(os.path.join(path, "layout.json")) as f:
-		meta = json.load(f)
-	with open(os.path.join(path, "template.html")) as f:
-		template = f.read()
-	css = ""
-	if os.path.exists(os.path.join(path, "style.css")):
-		with open(os.path.join(path, "style.css")) as f:
-			css = f.read()
+	meta = json.loads(frappe.read_file(os.path.join(path, "layout.json"), raise_not_found=True))
 	return {
 		"title": meta["title"],
 		"description": meta.get("description", ""),
-		"template": template,
-		"css": css,
+		"template": frappe.read_file(os.path.join(path, "template.html"), raise_not_found=True),
+		"css": frappe.read_file(os.path.join(path, "style.css")) or "",
 	}
 
 
