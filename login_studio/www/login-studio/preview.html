@@ -1,0 +1,47 @@
+{% extends "templates/web.html" %}
+
+{% block navbar %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
+{% block head_include %}
+{{ include_style('login.bundle.css') }}
+{% if ls %}<style id="login-studio-css">{{ ls.css }}</style>{% endif %}
+<style>
+	.ls-preview-badge {
+		position: fixed;
+		inset-block-end: 12px;
+		inset-inline-start: 12px;
+		z-index: 1000;
+		opacity: 0.85;
+		pointer-events: none;
+		padding: 4px 10px;
+		border-radius: 999px;
+		background: rgba(17, 24, 39, 0.85);
+		color: #fff;
+		font: 600 12px/1.5 system-ui, sans-serif;
+	}
+	.ls-preview-error {
+		max-width: 720px;
+		margin: 4rem auto;
+		padding: 1.5rem;
+		border: 1px solid #fecaca;
+		border-radius: 8px;
+		background: #fef2f2;
+		color: #991b1b;
+		font-family: system-ui, sans-serif;
+	}
+</style>
+{% endblock %}
+
+{% block page_content %}
+<div class="ls-preview-badge">{{ _("Preview: sample form") }}</div>
+{% if ls %}
+{{ ls.before }}{% include "login_studio/templates/includes/sample_login_form.html" %}{{ ls.after }}
+{% else %}
+<div class="ls-preview-error">
+	<h4>{{ _("Layout {0} could not be rendered").format(preview_layout) }}</h4>
+	<pre>{{ preview_error | e }}</pre>
+</div>
+{% endif %}
+{% endblock %}
