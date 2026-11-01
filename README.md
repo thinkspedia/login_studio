@@ -73,6 +73,8 @@ If a custom layout ever misbehaves, disable Login Studio without touching the da
 bench --site your-site.com set-config login_studio_disabled 1
 ```
 
+On Frappe v16 this takes effect within a minute, because web workers cache the site config for 60 seconds; run `bench restart` to apply it immediately. On v15 it applies on the next request.
+
 ## Custom layouts at a glance
 
 A layout is a Jinja template plus CSS. The only required piece is the stock login form:
