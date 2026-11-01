@@ -35,6 +35,8 @@ Built-in (Standard) layouts and layouts shipped by other apps (Plugin) are read-
 | `ls.versions` | List of `{app, label, version}`; empty unless Show App Versions is on |
 | `ls.lang` | Current language code, e.g. `en`, `id` |
 | `ls.dir` | `ltr` or `rtl` |
+| `ls.languages` | Switcher entries `{code, name, url, current}`; empty unless Show Language Switcher is on |
+| `ls.extra`, `ls.slots` | Data and HTML added by plugins (see the [plugin guide](plugins.md)) |
 | `_()` | Translation function: `{{ _("Welcome") }}` |
 
 ## Ready-made partials
@@ -47,6 +49,8 @@ Call these instead of rebuilding common pieces; they already handle empty values
 | `{{ ls_background() }}` | The uploaded photo, or the built-in SVG illustration tinted with your colors |
 | `{{ ls_powered_by() }}` | The Powered by line, or nothing when it is turned off |
 | `{{ ls_versions() }}` | Version badges, or nothing when versions are hidden |
+| `{{ ls_language_switcher() }}` | Language links, or nothing when the switcher is off |
+| `{{ ls_slot("below_form") }}` | Plugin HTML for a slot (`hero`, `above_form`, `below_form`, `footer`), or nothing |
 
 ## CSS custom properties
 

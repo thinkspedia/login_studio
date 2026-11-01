@@ -9,6 +9,7 @@ Any failure returns ``None`` and the page falls back to the stock login.
 """
 
 import os
+from urllib.parse import urlencode
 
 import frappe
 from frappe import _
@@ -126,6 +127,7 @@ def build_layout_context(settings, stock_logo: str | None = None) -> dict:
 		],
 		"lang": escape(lang),
 		"dir": branding.text_direction(lang),
+		"languages": get_switcher_languages(settings, lang),
 		"extra": {},
 		"slots": {},
 	}
@@ -134,6 +136,52 @@ def build_layout_context(settings, stock_logo: str | None = None) -> dict:
 		call_plugin_hook(path, ls)
 	ls["slots"] = build_slots(ls)
 	return ls
+
+
+def get_switcher_languages(settings, current: str) -> list[dict]:
+	"""Languages for the switcher: [{code, name, url, current}], empty when the switcher is off."""
+	if not settings.show_language_switcher:
+		return []
+	codes = [row.language for row in settings.languages if row.language]
+	if not codes:
+		return []
+	names = dict(
+		frappe.get_all(
+			"Language",
+			filters={"name": ("in", codes), "enabled": 1},
+			fields=["name", "language_name"],
+			as_list=True,
+		)
+	)
+	query = {}
+	if getattr(frappe.local, "request", None):
+		redirect_to = frappe.local.request.args.get("redirect-to")
+		if redirect_to:
+			query["redirect-to"] = redirect_to
+	return [
+		{
+			"code": escape(code),
+			"name": escape(names[code] or code),
+			"url": escape("?" + urlencode({**query, "_lang": code})),
+			"current": code == current,
+		}
+		for code in codes
+		if code in names
+	]
+
+
+def remember_language() -> None:
+	"""Keep a language picked in the switcher (?_lang=xx) for later visits, as Frappe's own picker does."""
+	lang = frappe.form_dict.get("_lang")
+	if not lang or not getattr(frappe.local, "cookie_manager", None):
+		return
+	try:
+		settings = frappe.get_cached_doc("Login Studio Settings")
+		if settings.show_language_switcher and lang in [row.language for row in settings.languages]:
+			frappe.local.cookie_manager.set_cookie("preferred_language", lang)
+	except Exception:
+		# Not worth failing the login page over
+		log_render_error()
 
 
 def build_slots(ls: dict) -> dict:
@@ -191,6 +239,7 @@ def render_layout(template: str, ls: dict) -> str:
 		"ls_versions": partials.versions,
 		"ls_background": partials.background,
 		"ls_slot": partials.slot,
+		"ls_language_switcher": partials.language_switcher,
 	}
 	with safe_render_flags():
 		return get_jenv().from_string(template).render(template_context)
@@ -230,6 +279,23 @@ class Partials:
 		)
 		return Markup('<ul class="ls-versions" aria-label="{}">{}</ul>').format(
 			frappe._("App versions"), items
+		)
+
+	def language_switcher(self) -> Markup:
+		if not self.ls["languages"]:
+			return Markup("")
+		links = Markup("").join(
+			Markup('<li><a href="{}" hreflang="{}" lang="{}"{}>{}</a></li>').format(
+				row["url"],
+				row["code"],
+				row["code"],
+				Markup(' aria-current="true"') if row["current"] else "",
+				row["name"],
+			)
+			for row in self.ls["languages"]
+		)
+		return Markup('<nav class="ls-lang" aria-label="{}"><ul>{}</ul></nav>').format(
+			frappe._("Language"), links
 		)
 
 	def slot(self, name: str) -> Markup:

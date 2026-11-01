@@ -14,6 +14,7 @@
 			{{ ls_slot("below_form") }}
 			<footer class="ls-glass__footer">
 				{% if ls.versions %}<div class="ls-glass__versions-compact">{{ ls_versions() }}</div>{% endif %}
+				{{ ls_language_switcher() }}
 				{{ ls_slot("footer") }}
 				{{ ls_powered_by() }}
 			</footer>
