@@ -10,13 +10,11 @@ Pick a layout, apply your brand, edit HTML/CSS live — no `bench build`, no for
 ![Frappe](https://img.shields.io/badge/Frappe-v15%20%7C%20v16-0089FF)
 ![ERPNext](https://img.shields.io/badge/ERPNext-v15%20%7C%20v16-0089FF)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
-![Status](https://img.shields.io/badge/status-in%20development-orange)
+![Release](https://img.shields.io/badge/release-v0.1.0-2ea44f)
+
+<img src="docs/images/layout-split_hero.webp" alt="Login Studio, Split Hero layout" width="860">
 
 </div>
-
-> [!WARNING]
-> Login Studio is **under active development** and has not had its first release yet.
-> The features below describe the v0.1.0 scope. Do not install it on production sites until a tagged release is published.
 
 ---
 
@@ -29,20 +27,30 @@ Login Studio replaces all of that with one installable app:
 - **Wraps, never copies, the stock login form.** Password, OTP / 2FA, LDAP, social login, login-with-email-link, forgot password and signup keep working — and keep receiving upstream fixes.
 - **Never locks you out.** Any layout or plugin error falls back to the stock Frappe login automatically, and a site-config kill switch is always available.
 
-## Features (v0.1.0 scope)
+## Features
 
 | | |
 |---|---|
 | **Predefined layouts** | Split Hero, Centered Card, Glass, Minimal, Corporate Sidebar — mobile-first and responsive from 320 px up |
-| **Branding** | Logo (light/dark), brand name, tagline, background image, primary / secondary / accent colors, fonts, corner radius |
+| **Branding** | Logo, brand name, tagline, background image, primary / secondary / accent colors, fonts, corner radius |
 | **Powered by** | Configurable text and URL, show or hide |
 | **App versions** | Optionally show Frappe / ERPNext / HRMS (or any installed app) versions — off by default |
 | **Live custom layouts** | Duplicate any layout and edit its HTML (Jinja) and CSS in Desk; changes are live on save |
-| **Layout contract** | Documented variables, macros and CSS custom properties so custom layouts stay safe and upgrade-proof |
+| **Layout contract** | Documented variables, partials and CSS custom properties; templates run in Frappe's Jinja sandbox and are checked on save |
 | **Languages** | Follows the visitor's browser language, with an optional on-page language switcher that remembers the choice; right-to-left languages mirror the layout. Indonesian translation included |
 | **Plugin API** | Other apps can add layouts, context data, page slots and assets through `hooks.py` — no changes to Login Studio needed |
 | **On / off** | One checkbox restores the exact stock Frappe login |
 | **Privacy** | Fonts bundled locally; no third-party CDN calls from the login page by default |
+
+## Layouts
+
+| Split Hero | Centered Card | Glass |
+|---|---|---|
+| <img src="docs/images/layout-split_hero.webp" alt="Split Hero" width="280"> | <img src="docs/images/layout-centered_card.webp" alt="Centered Card" width="280"> | <img src="docs/images/layout-glass.webp" alt="Glass" width="280"> |
+
+| Minimal | Corporate Sidebar | Split Hero on a phone |
+|---|---|---|
+| <img src="docs/images/layout-minimal.webp" alt="Minimal" width="280"> | <img src="docs/images/layout-corporate_sidebar.webp" alt="Corporate Sidebar" width="280"> | <img src="docs/images/layout-split_hero-mobile.webp" alt="Split Hero at 375 px" width="140"> |
 
 ## Compatibility
 
@@ -54,8 +62,6 @@ Login Studio replaces all of that with one installable app:
 ERPNext and HRMS are optional — Login Studio only requires Frappe.
 
 ## Installation
-
-Available once v0.1.0 is released.
 
 ```bash
 # Pick the branch that matches your Frappe version
@@ -80,7 +86,7 @@ On Frappe v16 this takes effect within a minute, because web workers cache the s
 A layout is a Jinja template plus CSS. The only required piece is the stock login form:
 
 ```jinja
-<main class="my-login">
+<div class="ls-root my-login">
   <aside class="my-login__brand">
     {{ ls_logo() }}
     <h1>{{ ls.brand.name }}</h1>
@@ -90,7 +96,7 @@ A layout is a Jinja template plus CSS. The only required piece is the stock logi
     {{ login_form }}
     {{ ls_powered_by() }}
   </section>
-</main>
+</div>
 ```
 
 ```css
@@ -116,13 +122,14 @@ The plugin guide is in [docs/plugins.md](docs/plugins.md), with a working exampl
 
 ## Roadmap
 
-- [ ] App scaffold, CI on Frappe v15 and v16
-- [ ] Core: settings, safe rendering, fallback, Split Hero layout
-- [ ] Remaining predefined layouts
-- [ ] Custom layouts with validation and live preview
-- [ ] Plugin API and example plugin
-- [ ] Translations (English, Indonesian) and language switcher
-- [ ] v0.1.0 release and Frappe Cloud Marketplace listing
+- [x] Five predefined layouts, branding, typography, Powered by, app versions
+- [x] Custom layouts with save-time checks and live preview
+- [x] Plugin API and example plugin
+- [x] Language switcher, Indonesian translation, right-to-left support
+- [ ] Frappe Cloud Marketplace listing
+- [ ] More layouts and translations (contributions welcome)
+
+See [CHANGELOG.md](CHANGELOG.md) for what each release contains.
 
 ## Development
 
@@ -142,13 +149,13 @@ Code must stay **Python 3.10 compatible** (Frappe v15). Anything that differs be
 
 ## Contributing
 
-Issues and pull requests are welcome once the repository is public. Please open an issue to discuss larger changes first. New layouts, translations and plugins are especially appreciated.
+Issues and pull requests are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md). Please open an issue to discuss larger changes first. New layouts, translations and plugins are especially appreciated. This project follows a [Code of Conduct](CODE_OF_CONDUCT.md).
 
 Translations live in `login_studio/translations/<language>.csv` (`source,translation,context`). Strings Frappe already translates are left to Frappe, so terms stay the same as in Desk.
 
 ## Security
 
-Please do not report security issues in public issues. Use GitHub's **[private vulnerability reporting](https://github.com/thinkspedia/login_studio/security/advisories/new)** instead.
+Please do not report security issues in public issues. See [SECURITY.md](SECURITY.md).
 
 ## License
 
