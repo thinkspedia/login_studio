@@ -1,0 +1,15 @@
+{#- Wraps the stock login page. When ls is empty (disabled, kill switch or a render error) every block is upstream's. -#}
+{% extends "frappe/www/login.html" %}
+
+{% block navbar %}{% if not ls %}{{ super() }}{% endif %}{% endblock %}
+
+{% block footer %}{% if not ls %}{{ super() }}{% endif %}{% endblock %}
+
+{% block head_include %}
+{{ super() }}
+{% if ls %}<style id="login-studio-css">{{ ls.css }}</style>{% endif %}
+{% endblock %}
+
+{% block page_content %}
+{% if ls %}{{ ls.before }}{{ super() }}{{ ls.after }}{% else %}{{ super() }}{% endif %}
+{% endblock %}

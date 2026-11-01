@@ -1,0 +1,173 @@
+/* Split Hero: brand panel + form. Mobile first: header band on top, two columns from 992px. */
+
+.ls-split {
+	display: flex;
+	flex-direction: column;
+	background: var(--ls-surface);
+}
+
+.ls-split__brand {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	color: var(--ls-on-primary);
+	background: linear-gradient(135deg, var(--ls-primary) 0%, var(--ls-secondary) 100%);
+}
+/* Keeps text readable over an uploaded photo; the gradient tints it to the brand */
+.ls-split__brand:has(.ls-bg--photo)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	background: linear-gradient(
+		135deg,
+		color-mix(in srgb, var(--ls-primary) 88%, transparent) 0%,
+		color-mix(in srgb, var(--ls-secondary) 78%, transparent) 100%
+	);
+}
+.ls-split__brand .ls-bg {
+	z-index: -2;
+}
+
+.ls-split__brand-inner {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+	padding: 1.25rem 1.5rem;
+}
+
+.ls-split__logo-chip {
+	flex: none;
+	display: inline-flex;
+	padding: 0.5rem 0.75rem;
+	border-radius: var(--ls-radius);
+	background: #ffffff;
+	box-shadow: 0 8px 24px rgba(15, 23, 42, 0.18);
+}
+.ls-split__logo-chip .ls-logo {
+	height: 28px;
+	max-width: 120px;
+}
+
+.ls-split__title {
+	margin: 0;
+	font-size: 1.125rem;
+	font-weight: 700;
+	line-height: 1.25;
+	letter-spacing: -0.01em;
+	color: inherit;
+}
+.ls-split__tagline {
+	display: none;
+	margin: 0.75rem 0 0;
+	max-width: 32rem;
+	font-size: 1.0625rem;
+	line-height: 1.6;
+	opacity: 0.88;
+}
+
+.ls-split__versions {
+	display: none;
+}
+
+.ls-split__main {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	padding: 2rem 1.5rem 1.5rem;
+}
+.ls-split__form {
+	flex: 1;
+	display: flex;
+	align-items: flex-start;
+	justify-content: center;
+}
+/* The brand panel already shows the logo */
+.ls-split__form .page-card-head .app-logo {
+	display: none;
+}
+
+.ls-split__footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	padding-top: 2rem;
+	text-align: center;
+}
+.ls-split__versions-compact .ls-versions {
+	justify-content: center;
+	color: var(--ls-muted);
+}
+
+@media (min-width: 576px) {
+	.ls-split__brand-inner {
+		padding: 1.5rem 2.5rem;
+	}
+	.ls-split__main {
+		padding: 3rem 2.5rem 2rem;
+	}
+}
+
+@media (min-width: 992px) {
+	.ls-split {
+		flex-direction: row;
+		min-height: 100vh;
+		min-height: 100dvh;
+	}
+	.ls-split__brand {
+		flex: 0 0 52%;
+		max-width: 52%;
+	}
+	.ls-split__brand-inner {
+		height: 100%;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 3.5rem;
+	}
+	.ls-split__logo-chip {
+		padding: 0.75rem 1rem;
+	}
+	.ls-split__logo-chip .ls-logo {
+		height: 40px;
+		max-width: 180px;
+	}
+	.ls-split__headline {
+		margin-top: auto;
+		margin-bottom: auto;
+	}
+	.ls-split__title {
+		font-size: clamp(2rem, 2.8vw, 3rem);
+		line-height: 1.1;
+		letter-spacing: -0.025em;
+	}
+	.ls-split__tagline {
+		display: block;
+	}
+	.ls-split__versions {
+		display: block;
+	}
+	.ls-split__versions-compact {
+		display: none;
+	}
+	.ls-split__main {
+		flex: 1;
+		justify-content: center;
+		padding: 3rem;
+	}
+	.ls-split__form {
+		flex: 0 0 auto;
+		align-items: center;
+	}
+	.ls-split__footer {
+		margin-top: 2.5rem;
+	}
+}
+
+@media (min-width: 1440px) {
+	.ls-split__brand-inner {
+		padding: 4.5rem;
+	}
+}
