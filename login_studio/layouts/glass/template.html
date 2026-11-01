@@ -1,0 +1,18 @@
+<div class="ls-root ls-glass" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<div class="ls-glass__backdrop">{{ ls_background() }}</div>
+	<div class="ls-glass__grid">
+		<aside class="ls-glass__hero">
+			<h1 class="ls-glass__title">{{ ls.brand.name }}</h1>
+			{% if ls.brand.tagline %}<p class="ls-glass__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+			{% if ls.versions %}<div class="ls-glass__versions">{{ ls_versions() }}</div>{% endif %}
+		</aside>
+		<section class="ls-glass__panel">
+			{% if ls.brand.logo %}<div class="ls-glass__logo">{{ ls_logo() }}</div>{% endif %}
+			{{ login_form }}
+			<footer class="ls-glass__footer">
+				{% if ls.versions %}<div class="ls-glass__versions-compact">{{ ls_versions() }}</div>{% endif %}
+				{{ ls_powered_by() }}
+			</footer>
+		</section>
+	</div>
+</div>

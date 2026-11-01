@@ -1,0 +1,104 @@
+/* Centered Card: brand background fills the screen, card in the middle. */
+
+.ls-centered {
+	position: relative;
+	isolation: isolate;
+	display: flex;
+	color: var(--ls-text);
+}
+
+.ls-centered__backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	background: linear-gradient(140deg, var(--ls-primary) 0%, var(--ls-secondary) 100%);
+}
+.ls-centered__backdrop:has(.ls-bg--photo)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		140deg,
+		color-mix(in srgb, var(--ls-primary) 72%, transparent) 0%,
+		color-mix(in srgb, var(--ls-secondary) 60%, transparent) 100%
+	);
+}
+
+.ls-centered__inner {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	padding: 1rem;
+}
+
+.ls-centered__card {
+	width: 100%;
+	max-width: 440px;
+	padding: 1.75rem 1.5rem;
+	border-radius: var(--ls-radius);
+	background: var(--ls-surface);
+	box-shadow:
+		0 1px 2px rgba(15, 23, 42, 0.08),
+		0 24px 64px rgba(15, 23, 42, 0.28);
+}
+
+.ls-centered__brand {
+	display: flex;
+	align-items: center;
+	gap: 0.875rem;
+	margin-block-end: 1.5rem;
+	padding-block-end: 1.25rem;
+	border-block-end: 1px solid var(--ls-border);
+}
+.ls-centered__brand .ls-logo {
+	height: 40px;
+	max-width: 140px;
+}
+.ls-centered__brand-text {
+	min-width: 0;
+}
+.ls-centered__name {
+	margin: 0;
+	font-family: var(--ls-heading-font);
+	font-size: 1rem;
+	font-weight: 700;
+	line-height: 1.3;
+}
+.ls-centered__tagline {
+	margin: 0.125rem 0 0;
+	font-size: 0.8125rem;
+	line-height: 1.4;
+	color: var(--ls-muted);
+}
+
+.ls-centered__footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	color: var(--ls-on-primary);
+	text-align: center;
+}
+.ls-centered__footer .ls-versions {
+	justify-content: center;
+}
+.ls-centered__footer .ls-powered-by {
+	color: inherit;
+	opacity: 0.85;
+}
+.ls-centered__footer .ls-powered-by a:hover {
+	color: inherit;
+}
+
+@media (min-width: 576px) {
+	.ls-centered__inner {
+		padding: 3rem 1.5rem;
+	}
+	.ls-centered__card {
+		padding: 2.5rem 2.5rem 2.25rem;
+	}
+}

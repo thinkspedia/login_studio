@@ -79,12 +79,8 @@
 .ls-split__form {
 	flex: 1;
 	display: flex;
-	align-items: flex-start;
-	justify-content: center;
-}
-/* The brand panel already shows the logo */
-.ls-split__form .page-card-head .app-logo {
-	display: none;
+	flex-direction: column;
+	justify-content: flex-start;
 }
 
 .ls-split__footer {
@@ -159,7 +155,6 @@
 	}
 	.ls-split__form {
 		flex: 0 0 auto;
-		align-items: center;
 	}
 	.ls-split__footer {
 		margin-top: 2.5rem;

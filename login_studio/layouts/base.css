@@ -1,8 +1,25 @@
 /*
  * Login Studio base styles, shared by every layout.
  * Brand variables (--ls-primary, --ls-secondary, --ls-accent, --ls-on-primary,
- * --ls-radius) are injected before this file. Layout CSS comes after it.
+ * --ls-radius, --ls-font, --ls-heading-font) are injected before this file.
+ * Layout CSS comes after it.
  */
+
+/* Bundled fonts (SIL Open Font License, see public/fonts/*) */
+@font-face {
+	font-family: "Login Studio Inter";
+	src: url("/assets/login_studio/fonts/inter/InterVariable.woff2") format("woff2");
+	font-weight: 100 900;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "Login Studio Source Serif";
+	src: url("/assets/login_studio/fonts/source-serif-4/SourceSerif4Variable-Roman.woff2") format("woff2");
+	font-weight: 200 900;
+	font-style: normal;
+	font-display: swap;
+}
 
 /* Let the layout own the whole viewport (stock login pads and centers the page) */
 body:has(.ls-root) {
@@ -27,13 +44,21 @@ body:has(.ls-root) .page-footer {
 	--ls-muted: #6b7280;
 	--ls-border: #e5e7eb;
 	--ls-surface: #ffffff;
-	--ls-font: inherit;
 	box-sizing: border-box;
 	min-height: 100vh;
 	min-height: 100dvh;
 	color: var(--ls-text);
 	font-family: var(--ls-font);
 	-webkit-font-smoothing: antialiased;
+}
+.ls-root h1,
+.ls-root h2,
+.ls-root .page-card-head h4 {
+	font-family: var(--ls-heading-font);
+}
+.ls-root input,
+.ls-root button {
+	font-family: inherit;
 }
 .ls-root *,
 .ls-root *::before,
@@ -52,6 +77,10 @@ body:has(.ls-root) .page-footer {
 	border-radius: 0;
 	box-shadow: none;
 	background: transparent;
+}
+/* Layouts show the brand themselves */
+.ls-root .page-card-head .app-logo {
+	display: none;
 }
 .ls-root .page-card form {
 	max-width: none;

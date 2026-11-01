@@ -14,6 +14,18 @@ DEFAULT_COLORS = {
 
 RADIUS = {"None": "0px", "Small": "6px", "Medium": "12px", "Large": "20px"}
 
+SYSTEM_FONT_STACK = 'system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif'
+
+# Bundled font families are declared in layouts/base.css; prefixed so they never clash with Frappe's own Inter
+FONTS = {
+	"Inter": f'"Login Studio Inter", {SYSTEM_FONT_STACK}',
+	"System UI": SYSTEM_FONT_STACK,
+}
+HEADING_FONTS = {
+	"Same as Font": "var(--ls-font)",
+	"Source Serif": '"Login Studio Source Serif", Georgia, "Times New Roman", serif',
+}
+
 # Shown when the Version Apps table is empty and the app is installed
 DEFAULT_VERSION_APPS = {"frappe": "Frappe", "erpnext": "ERPNext", "hrms": "Frappe HR"}
 

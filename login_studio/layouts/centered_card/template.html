@@ -1,0 +1,19 @@
+<div class="ls-root ls-centered" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<div class="ls-centered__backdrop">{{ ls_background() }}</div>
+	<div class="ls-centered__inner">
+		<div class="ls-centered__card">
+			<header class="ls-centered__brand">
+				{{ ls_logo() }}
+				<div class="ls-centered__brand-text">
+					<p class="ls-centered__name">{{ ls.brand.name }}</p>
+					{% if ls.brand.tagline %}<p class="ls-centered__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+				</div>
+			</header>
+			{{ login_form }}
+		</div>
+		<footer class="ls-centered__footer">
+			{{ ls_versions() }}
+			{{ ls_powered_by() }}
+		</footer>
+	</div>
+</div>

@@ -1,0 +1,14 @@
+<div class="ls-root ls-minimal" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<div class="ls-minimal__accent" aria-hidden="true"></div>
+	<div class="ls-minimal__inner">
+		<header class="ls-minimal__brand">
+			{% if ls.brand.logo %}{{ ls_logo() }}{% else %}<p class="ls-minimal__name">{{ ls.brand.name }}</p>{% endif %}
+			{% if ls.brand.tagline %}<p class="ls-minimal__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+		</header>
+		<section class="ls-minimal__card">{{ login_form }}</section>
+		<footer class="ls-minimal__footer">
+			{{ ls_versions() }}
+			{{ ls_powered_by() }}
+		</footer>
+	</div>
+</div>

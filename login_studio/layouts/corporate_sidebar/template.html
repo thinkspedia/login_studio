@@ -1,0 +1,25 @@
+<div class="ls-root ls-sidebar" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<section class="ls-sidebar__panel">
+		<header class="ls-sidebar__brand">
+			{% if ls.brand.logo %}{{ ls_logo() }}{% endif %}
+			<p class="ls-sidebar__name">{{ ls.brand.name }}</p>
+		</header>
+		<div class="ls-sidebar__form">{{ login_form }}</div>
+		<footer class="ls-sidebar__footer">
+			<div class="ls-sidebar__versions-compact">{{ ls_versions() }}</div>
+			{{ ls_powered_by() }}
+		</footer>
+	</section>
+	<aside class="ls-sidebar__hero">
+		{{ ls_background() }}
+		<div class="ls-sidebar__hero-inner">
+			{% if ls.brand.tagline %}
+			<p class="ls-sidebar__eyebrow">{{ ls.brand.name }}</p>
+			<h1 class="ls-sidebar__headline">{{ ls.brand.tagline }}</h1>
+			{% else %}
+			<h1 class="ls-sidebar__headline">{{ ls.brand.name }}</h1>
+			{% endif %}
+			{% if ls.versions %}<div class="ls-sidebar__versions">{{ ls_versions() }}</div>{% endif %}
+		</div>
+	</aside>
+</div>

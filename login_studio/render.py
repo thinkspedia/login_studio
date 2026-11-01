@@ -158,6 +158,10 @@ def build_css(settings, layout) -> str:
 		"--ls-accent": accent,
 		"--ls-on-primary": branding.readable_text_on(primary),
 		"--ls-radius": branding.RADIUS.get(settings.corner_radius, branding.RADIUS["Medium"]),
+		"--ls-font": branding.FONTS.get(settings.font_family, branding.FONTS["Inter"]),
+		"--ls-heading-font": branding.HEADING_FONTS.get(
+			settings.heading_font, branding.HEADING_FONTS["Same as Font"]
+		),
 	}
 	root = ":root{" + "".join(f"{name}:{value};" for name, value in variables.items()) + "}"
 	return "\n".join([root, read_asset("base.css"), layout.css or ""])
