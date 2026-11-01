@@ -1,0 +1,150 @@
+/* Glass: frosted panel over the background. Headline above the panel on phones, beside it from 992px. */
+
+.ls-glass {
+	position: relative;
+	isolation: isolate;
+	display: flex;
+}
+
+.ls-glass__backdrop {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	overflow: hidden;
+	background:
+		radial-gradient(120% 90% at 85% 15%, var(--ls-accent) 0%, transparent 55%),
+		linear-gradient(150deg, var(--ls-primary) 0%, var(--ls-secondary) 100%);
+}
+.ls-glass__backdrop:has(.ls-bg--photo)::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		90deg,
+		color-mix(in srgb, var(--ls-primary) 55%, transparent) 0%,
+		color-mix(in srgb, var(--ls-secondary) 25%, transparent) 100%
+	);
+}
+
+.ls-glass__grid {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1.5rem;
+	padding: 2rem 1rem;
+}
+
+.ls-glass__hero {
+	width: 100%;
+	max-width: 440px;
+	color: var(--ls-on-primary);
+	text-align: center;
+}
+.ls-glass__title {
+	margin: 0;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.15;
+	letter-spacing: -0.02em;
+	color: inherit;
+	text-shadow: 0 2px 24px rgba(15, 23, 42, 0.25);
+}
+.ls-glass__tagline {
+	margin: 0.5rem 0 0;
+	font-size: 0.9375rem;
+	line-height: 1.5;
+	opacity: 0.9;
+}
+.ls-glass__versions {
+	display: none;
+}
+
+.ls-glass__panel {
+	width: 100%;
+	max-width: 440px;
+	padding: 1.75rem 1.5rem 1.5rem;
+	border: 1px solid rgba(255, 255, 255, 0.55);
+	border-radius: calc(var(--ls-radius) + 4px);
+	background: rgba(255, 255, 255, 0.78);
+	box-shadow: 0 24px 64px rgba(15, 23, 42, 0.25);
+	-webkit-backdrop-filter: blur(20px) saturate(150%);
+	backdrop-filter: blur(20px) saturate(150%);
+}
+/* Without backdrop-filter support the panel would be see-through: make it solid */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+	.ls-glass__panel {
+		background: var(--ls-surface);
+	}
+}
+.ls-glass__logo {
+	margin-block-end: 1.25rem;
+}
+.ls-glass__logo .ls-logo {
+	height: 36px;
+	max-width: 160px;
+}
+.ls-glass .page-card .form-control {
+	background-color: rgba(255, 255, 255, 0.9);
+}
+.ls-glass__footer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	margin-block-start: 1.5rem;
+	text-align: center;
+}
+.ls-glass__versions-compact .ls-versions {
+	justify-content: center;
+	color: #4b5563;
+}
+.ls-glass__footer .ls-powered-by {
+	color: #4b5563;
+}
+
+@media (min-width: 576px) {
+	.ls-glass__panel {
+		padding: 2.5rem;
+	}
+	.ls-glass__title {
+		font-size: 2rem;
+	}
+}
+
+@media (min-width: 992px) {
+	.ls-glass__grid {
+		flex-direction: row-reverse;
+		justify-content: space-between;
+		gap: 4rem;
+		width: 100%;
+		max-width: 1240px;
+		margin-inline: auto;
+		padding: 3rem;
+	}
+	.ls-glass__hero {
+		max-width: 560px;
+		text-align: start;
+	}
+	.ls-glass__title {
+		font-size: clamp(2.5rem, 3.6vw, 3.75rem);
+		line-height: 1.05;
+		letter-spacing: -0.03em;
+	}
+	.ls-glass__tagline {
+		margin-top: 1.25rem;
+		font-size: 1.125rem;
+		max-width: 30rem;
+	}
+	.ls-glass__versions {
+		display: block;
+		margin-top: 2rem;
+	}
+	.ls-glass__versions-compact {
+		display: none;
+	}
+	.ls-glass__panel {
+		flex: 0 0 440px;
+	}
+}

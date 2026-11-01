@@ -150,6 +150,13 @@ Please do not report security issues in public issues. Use GitHub's **[private v
 
 [MIT](LICENSE) © 2026 [Thinkspedia](https://thinkspedia.id)
 
+### Third-party fonts
+
+Bundled unmodified under the SIL Open Font License 1.1, license files next to each font:
+
+- [Inter](https://github.com/rsms/inter) v4.1, © The Inter Project Authors — `login_studio/public/fonts/inter/`
+- [Source Serif 4](https://github.com/adobe-fonts/source-serif) 4.005, © Adobe — `login_studio/public/fonts/source-serif-4/`
+
 ---
 
 <div align="center">

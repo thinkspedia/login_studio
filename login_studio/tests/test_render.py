@@ -109,6 +109,32 @@ class TestLayouts(IntegrationTestCase):
 		for name in names:
 			self.assertEqual(frappe.db.get_value("Login Layout", name, "source"), "Standard")
 
+	def test_every_standard_layout_renders(self):
+		settings = frappe.get_single("Login Studio Settings")
+		settings.brand_name = "Acme & Co"
+		settings.tagline = "Tagline"
+		settings.show_versions = 1
+		ls = render.build_layout_context(settings, stock_logo="/files/logo.png")
+		for name in get_standard_layout_names():
+			with self.subTest(layout=name):
+				html = render.render_layout(frappe.get_doc("Login Layout", name).template, ls)
+				self.assertEqual(html.count(render.FORM_TOKEN), 1)
+				self.assertIn("Acme &amp; Co", html)
+				self.assertIn("ls-versions", html)
+				self.assertIn('class="ls-root', html)
+
+	def test_font_settings_set_css_variables(self):
+		settings = frappe.get_single("Login Studio Settings")
+		layout = frappe.get_doc("Login Layout", "split_hero")
+		settings.font_family = "System UI"
+		settings.heading_font = "Source Serif"
+		css = render.build_css(settings, layout)
+		self.assertIn("--ls-font:system-ui", css)
+		self.assertIn('--ls-heading-font:"Login Studio Source Serif"', css)
+
+		settings.font_family = None
+		self.assertIn('--ls-font:"Login Studio Inter"', render.build_css(settings, layout))
+
 	def test_sync_keeps_enabled_flag(self):
 		frappe.db.set_value("Login Layout", "split_hero", "enabled", 0)
 		sync_standard_layouts()

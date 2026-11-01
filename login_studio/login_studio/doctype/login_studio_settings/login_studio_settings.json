@@ -20,6 +20,10 @@
   "column_break_colors",
   "accent_color",
   "corner_radius",
+  "section_typography",
+  "font_family",
+  "column_break_typography",
+  "heading_font",
   "section_footer",
   "show_powered_by",
   "powered_by_text",
@@ -154,13 +158,37 @@
    "fieldtype": "Table",
    "label": "Version Apps",
    "options": "Login Studio Version App"
+  },
+  {
+   "fieldname": "section_typography",
+   "fieldtype": "Section Break",
+   "label": "Typography"
+  },
+  {
+   "default": "Inter",
+   "description": "Inter is bundled with the app; no external font service is used.",
+   "fieldname": "font_family",
+   "fieldtype": "Select",
+   "label": "Font",
+   "options": "Inter\nSystem UI"
+  },
+  {
+   "fieldname": "column_break_typography",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Same as Font",
+   "fieldname": "heading_font",
+   "fieldtype": "Select",
+   "label": "Heading Font",
+   "options": "Same as Font\nSource Serif"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-01 08:53:36.307927",
+ "modified": "2026-11-01 09:17:10.896118",
  "modified_by": "Administrator",
  "module": "Login Studio",
  "name": "Login Studio Settings",
