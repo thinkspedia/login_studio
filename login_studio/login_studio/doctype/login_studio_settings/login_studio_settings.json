@@ -1,0 +1,185 @@
+{
+ "actions": [],
+ "allow_bulk_edit": 1,
+ "creation": "2026-11-01 08:41:19.361745",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "enabled",
+  "active_layout",
+  "section_branding",
+  "brand_name",
+  "tagline",
+  "column_break_branding",
+  "logo",
+  "background_image",
+  "section_colors",
+  "primary_color",
+  "secondary_color",
+  "column_break_colors",
+  "accent_color",
+  "corner_radius",
+  "section_footer",
+  "show_powered_by",
+  "powered_by_text",
+  "powered_by_url",
+  "column_break_footer",
+  "show_versions",
+  "version_apps"
+ ],
+ "fields": [
+  {
+   "default": "1",
+   "description": "Uncheck to restore the stock Frappe login page.",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled"
+  },
+  {
+   "depends_on": "enabled",
+   "fieldname": "active_layout",
+   "fieldtype": "Link",
+   "label": "Active Layout",
+   "mandatory_depends_on": "enabled",
+   "options": "Login Layout"
+  },
+  {
+   "fieldname": "section_branding",
+   "fieldtype": "Section Break",
+   "label": "Branding"
+  },
+  {
+   "description": "Defaults to the Website Settings app name, then the default company.",
+   "fieldname": "brand_name",
+   "fieldtype": "Data",
+   "label": "Brand Name"
+  },
+  {
+   "fieldname": "tagline",
+   "fieldtype": "Data",
+   "label": "Tagline"
+  },
+  {
+   "fieldname": "column_break_branding",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "Defaults to the Website Settings app logo.",
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo"
+  },
+  {
+   "description": "Leave empty to use the built-in illustration.",
+   "fieldname": "background_image",
+   "fieldtype": "Attach Image",
+   "label": "Background Image"
+  },
+  {
+   "fieldname": "section_colors",
+   "fieldtype": "Section Break",
+   "label": "Colors"
+  },
+  {
+   "default": "#4338CA",
+   "fieldname": "primary_color",
+   "fieldtype": "Color",
+   "label": "Primary Color"
+  },
+  {
+   "default": "#7C3AED",
+   "fieldname": "secondary_color",
+   "fieldtype": "Color",
+   "label": "Secondary Color"
+  },
+  {
+   "fieldname": "column_break_colors",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "#0EA5E9",
+   "fieldname": "accent_color",
+   "fieldtype": "Color",
+   "label": "Accent Color"
+  },
+  {
+   "default": "Medium",
+   "fieldname": "corner_radius",
+   "fieldtype": "Select",
+   "label": "Corner Radius",
+   "options": "None\nSmall\nMedium\nLarge"
+  },
+  {
+   "fieldname": "section_footer",
+   "fieldtype": "Section Break",
+   "label": "Footer"
+  },
+  {
+   "default": "1",
+   "fieldname": "show_powered_by",
+   "fieldtype": "Check",
+   "label": "Show Powered By"
+  },
+  {
+   "default": "Thinkspedia",
+   "depends_on": "show_powered_by",
+   "fieldname": "powered_by_text",
+   "fieldtype": "Data",
+   "label": "Powered By Text"
+  },
+  {
+   "default": "https://thinkspedia.id",
+   "depends_on": "show_powered_by",
+   "fieldname": "powered_by_url",
+   "fieldtype": "Data",
+   "label": "Powered By URL",
+   "options": "URL"
+  },
+  {
+   "fieldname": "column_break_footer",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "description": "Shows exact versions to anyone who opens the login page. Keep off on production.",
+   "fieldname": "show_versions",
+   "fieldtype": "Check",
+   "label": "Show App Versions"
+  },
+  {
+   "depends_on": "show_versions",
+   "description": "Leave empty to show Frappe, ERPNext and Frappe HR when installed.",
+   "fieldname": "version_apps",
+   "fieldtype": "Table",
+   "label": "Version Apps",
+   "options": "Login Studio Version App"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-11-01 08:53:36.307927",
+ "modified_by": "Administrator",
+ "module": "Login Studio",
+ "name": "Login Studio Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -1,0 +1,161 @@
+/*
+ * Login Studio base styles, shared by every layout.
+ * Brand variables (--ls-primary, --ls-secondary, --ls-accent, --ls-on-primary,
+ * --ls-radius) are injected before this file. Layout CSS comes after it.
+ */
+
+/* Let the layout own the whole viewport (stock login pads and centers the page) */
+body:has(.ls-root) {
+	background-color: #ffffff;
+}
+body:has(.ls-root) .page-content-wrapper,
+body:has(.ls-root) .page_content,
+body:has(.ls-root) main {
+	min-height: 0;
+	margin: 0;
+	padding: 0;
+	max-width: none;
+}
+body:has(.ls-root) .page-breadcrumbs,
+body:has(.ls-root) .page-header-wrapper,
+body:has(.ls-root) .page-footer {
+	display: none;
+}
+
+.ls-root {
+	--ls-text: #111827;
+	--ls-muted: #6b7280;
+	--ls-border: #e5e7eb;
+	--ls-surface: #ffffff;
+	--ls-font: inherit;
+	box-sizing: border-box;
+	min-height: 100vh;
+	min-height: 100dvh;
+	color: var(--ls-text);
+	font-family: var(--ls-font);
+	-webkit-font-smoothing: antialiased;
+}
+.ls-root *,
+.ls-root *::before,
+.ls-root *::after {
+	box-sizing: inherit;
+}
+
+/* Stock form card (v15 and v16 markup): sit inside the layout instead of floating on a grey page */
+.ls-root .page-card {
+	width: 100%;
+	max-width: 400px;
+	min-height: 0;
+	margin: 0 auto;
+	padding: 0;
+	border: 0;
+	border-radius: 0;
+	box-shadow: none;
+	background: transparent;
+}
+.ls-root .page-card form {
+	max-width: none;
+}
+.ls-root .form-control:focus {
+	border-color: var(--ls-primary);
+	box-shadow: 0 0 0 3px color-mix(in srgb, var(--ls-primary) 22%, transparent);
+}
+.ls-root .page-card a:not(.btn):not(.es-button) {
+	color: var(--ls-primary);
+}
+
+/* Primary action: v15 uses .btn-primary, v16 uses .es-button[data-variant="solid"] */
+.ls-root .btn-primary,
+.ls-root .es-button[data-variant="solid"] {
+	background-color: var(--ls-primary);
+	border-color: var(--ls-primary);
+	color: var(--ls-on-primary);
+	border-radius: min(var(--ls-radius), 10px);
+}
+.ls-root .btn-primary:hover,
+.ls-root .btn-primary:focus,
+.ls-root .es-button[data-variant="solid"]:hover,
+.ls-root .es-button[data-variant="solid"]:focus {
+	background-color: color-mix(in srgb, var(--ls-primary) 86%, #000000);
+	border-color: color-mix(in srgb, var(--ls-primary) 86%, #000000);
+	color: var(--ls-on-primary);
+}
+.ls-root .btn-primary:focus-visible,
+.ls-root .es-button[data-variant="solid"]:focus-visible {
+	outline: 2px solid var(--ls-accent);
+	outline-offset: 2px;
+}
+
+/* Background art: built-in SVG or the uploaded photo */
+.ls-bg {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	pointer-events: none;
+}
+.ls-bg--photo {
+	object-fit: cover;
+}
+.ls-bg--art {
+	color: #ffffff;
+}
+
+/* Partials */
+.ls-logo {
+	display: block;
+	width: auto;
+	height: 48px;
+	max-width: 200px;
+	object-fit: contain;
+}
+.ls-powered-by {
+	margin: 0;
+	font-size: 0.8125rem;
+	color: var(--ls-muted);
+}
+.ls-powered-by a {
+	color: inherit;
+	font-weight: 600;
+	text-decoration: none;
+}
+.ls-powered-by a:hover {
+	color: var(--ls-primary);
+	text-decoration: underline;
+}
+.ls-versions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 0.75rem;
+}
+.ls-versions li {
+	padding: 0.25rem 0.625rem;
+	border-radius: 999px;
+	border: 1px solid currentColor;
+	opacity: 0.85;
+	white-space: nowrap;
+}
+.ls-version__number {
+	font-variant-numeric: tabular-nums;
+	opacity: 0.8;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.ls-root .page-card {
+		animation: ls-fade-in 0.35s ease-out both;
+	}
+}
+@keyframes ls-fade-in {
+	from {
+		opacity: 0;
+		transform: translateY(6px);
+	}
+	to {
+		opacity: 1;
+		transform: none;
+	}
+}

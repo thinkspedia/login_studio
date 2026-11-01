@@ -1,0 +1,20 @@
+<div class="ls-root ls-split" dir="{{ ls.dir }}" lang="{{ ls.lang }}">
+	<aside class="ls-split__brand">
+		{{ ls_background() }}
+		<div class="ls-split__brand-inner">
+			{% if ls.brand.logo %}<div class="ls-split__logo-chip">{{ ls_logo() }}</div>{% endif %}
+			<div class="ls-split__headline">
+				<h1 class="ls-split__title">{{ ls.brand.name }}</h1>
+				{% if ls.brand.tagline %}<p class="ls-split__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+			</div>
+			{% if ls.versions %}<div class="ls-split__versions">{{ ls_versions() }}</div>{% endif %}
+		</div>
+	</aside>
+	<section class="ls-split__main">
+		<div class="ls-split__form">{{ login_form }}</div>
+		<footer class="ls-split__footer">
+			{% if ls.versions %}<div class="ls-split__versions-compact">{{ ls_versions() }}</div>{% endif %}
+			{{ ls_powered_by() }}
+		</footer>
+	</section>
+</div>

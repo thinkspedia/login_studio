@@ -96,7 +96,8 @@ app_license = "mit"
 # ------------
 
 # before_install = "login_studio.install.before_install"
-# after_install = "login_studio.install.after_install"
+after_install = "login_studio.install.after_install"
+after_migrate = "login_studio.install.after_migrate"
 
 # Uninstallation
 # ------------
