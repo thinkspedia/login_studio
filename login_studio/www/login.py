@@ -1,6 +1,6 @@
 from frappe.www.login import get_context as get_stock_context
 
-from login_studio.render import get_page_context
+from login_studio.render import get_page_context, remember_language
 
 no_cache = True
 
@@ -9,6 +9,7 @@ def get_context(context):
 	# Stock context first: providers, OTP, LDAP, signup and the logged-in redirect all stay upstream's
 	get_stock_context(context)
 
+	remember_language()
 	ls = get_page_context(context)
 	context.ls = ls
 	if ls:

@@ -31,6 +31,10 @@
   "column_break_footer",
   "show_versions",
   "version_apps",
+  "section_language",
+  "show_language_switcher",
+  "column_break_language",
+  "languages",
   "section_custom_css",
   "custom_css"
  ],
@@ -197,13 +201,38 @@
    "fieldtype": "Code",
    "label": "Custom CSS",
    "options": "CSS"
+  },
+  {
+   "fieldname": "section_language",
+   "fieldtype": "Section Break",
+   "label": "Language"
+  },
+  {
+   "default": "0",
+   "description": "The page always opens in the visitor's browser language when it is enabled on this site. The switcher lets them change it.",
+   "fieldname": "show_language_switcher",
+   "fieldtype": "Check",
+   "label": "Show Language Switcher"
+  },
+  {
+   "fieldname": "column_break_language",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "show_language_switcher",
+   "description": "Languages offered in the switcher, in this order.",
+   "fieldname": "languages",
+   "fieldtype": "Table MultiSelect",
+   "label": "Languages",
+   "mandatory_depends_on": "show_language_switcher",
+   "options": "Login Studio Language"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-01 17:10:40.980222",
+ "modified": "2026-11-01 18:16:59.124968",
  "modified_by": "Administrator",
  "module": "Login Studio",
  "name": "Login Studio Settings",

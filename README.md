@@ -39,7 +39,7 @@ Login Studio replaces all of that with one installable app:
 | **App versions** | Optionally show Frappe / ERPNext / HRMS (or any installed app) versions — off by default |
 | **Live custom layouts** | Duplicate any layout and edit its HTML (Jinja) and CSS in Desk; changes are live on save |
 | **Layout contract** | Documented variables, macros and CSS custom properties so custom layouts stay safe and upgrade-proof |
-| **Languages** | Follows the visitor's browser language, with an optional on-page language switcher; RTL-ready |
+| **Languages** | Follows the visitor's browser language, with an optional on-page language switcher that remembers the choice; right-to-left languages mirror the layout. Indonesian translation included |
 | **Plugin API** | Other apps can add layouts, context data, page slots and assets through `hooks.py` — no changes to Login Studio needed |
 | **On / off** | One checkbox restores the exact stock Frappe login |
 | **Privacy** | Fonts bundled locally; no third-party CDN calls from the login page by default |
@@ -141,6 +141,8 @@ Code must stay **Python 3.10 compatible** (Frappe v15). Anything that differs be
 ## Contributing
 
 Issues and pull requests are welcome once the repository is public. Please open an issue to discuss larger changes first. New layouts, translations and plugins are especially appreciated.
+
+Translations live in `login_studio/translations/<language>.csv` (`source,translation,context`). Strings Frappe already translates are left to Frappe, so terms stay the same as in Desk.
 
 ## Security
 

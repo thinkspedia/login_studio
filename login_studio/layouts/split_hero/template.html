@@ -15,6 +15,7 @@
 		<div class="ls-split__form">{{ ls_slot("above_form") }}{{ login_form }}{{ ls_slot("below_form") }}</div>
 		<footer class="ls-split__footer">
 			{% if ls.versions %}<div class="ls-split__versions-compact">{{ ls_versions() }}</div>{% endif %}
+			{{ ls_language_switcher() }}
 			{{ ls_slot("footer") }}
 			{{ ls_powered_by() }}
 		</footer>
