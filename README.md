@@ -122,6 +122,22 @@ The plugin guide will be documented in `docs/plugins.md`.
 - [ ] Translations (English, Indonesian) and language switcher
 - [ ] v0.1.0 release and Frappe Cloud Marketplace listing
 
+## Development
+
+```bash
+cd frappe-bench
+bench get-app https://github.com/thinkspedia/login_studio --branch develop
+bench --site dev.localhost install-app login_studio
+
+cd apps/login_studio
+pre-commit install          # ruff, prettier, eslint on every commit
+
+bench --site dev.localhost set-config allow_tests true
+bench --site dev.localhost run-tests --app login_studio
+```
+
+Code must stay **Python 3.10 compatible** (Frappe v15). Anything that differs between Frappe v15 and v16 belongs in `login_studio/compat.py`. CI runs every test on both versions.
+
 ## Contributing
 
 Issues and pull requests are welcome once the repository is public. Please open an issue to discuss larger changes first. New layouts, translations and plugins are especially appreciated.
