@@ -29,10 +29,11 @@ def broken_hook(ls):
 def fake_hooks(**hooks):
 	"""Pretend installed apps declare ``hooks``; every other hook is the real one."""
 
-	def get_hooks(hook=None, default=None, app_name=None):
+	def get_hooks(hook=None, *args, **kwargs):
 		if hook in hooks:
 			return hooks[hook]
-		return real_get_hooks(hook, default, app_name)
+		# Pass arguments through untouched: newer Frappe uses a sentinel default, not None
+		return real_get_hooks(hook, *args, **kwargs)
 
 	with patch("frappe.get_hooks", side_effect=get_hooks):
 		yield
@@ -99,10 +100,10 @@ class TestPluginHooks(IntegrationTestCase):
 		self.assertNotIn('"', result["js"][0])
 
 	def test_layout_folders_must_stay_inside_the_app(self):
-		def hooks_for(hook=None, default=None, app_name=None):
+		def hooks_for(hook=None, *args, **kwargs):
 			if hook == "login_studio_layouts":
-				return {"frappe": ["www", "../../../etc", "does_not_exist"]}.get(app_name, [])
-			return real_get_hooks(hook, default, app_name)
+				return {"frappe": ["www", "../../../etc", "does_not_exist"]}.get(kwargs.get("app_name"), [])
+			return real_get_hooks(hook, *args, **kwargs)
 
 		with patch("frappe.get_hooks", side_effect=hooks_for):
 			sources = get_layout_sources("frappe")

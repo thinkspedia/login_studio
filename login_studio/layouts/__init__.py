@@ -47,7 +47,7 @@ def get_layout_sources(app: str | None = None) -> list[tuple[str, str, str]]:
 		if plugin_app == "login_studio" or (app and plugin_app != app):
 			continue
 		app_path = os.path.realpath(frappe.get_app_path(plugin_app))
-		for relative in frappe.get_hooks("login_studio_layouts", app_name=plugin_app):
+		for relative in frappe.get_hooks("login_studio_layouts", app_name=plugin_app) or []:
 			folder = os.path.realpath(os.path.join(app_path, relative))
 			if not folder.startswith(app_path + os.sep) or not os.path.isdir(folder):
 				frappe.log_error(

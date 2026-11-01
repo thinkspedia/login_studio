@@ -130,7 +130,7 @@ def build_layout_context(settings, stock_logo: str | None = None) -> dict:
 		"slots": {},
 	}
 
-	for path in frappe.get_hooks("login_studio_context"):
+	for path in frappe.get_hooks("login_studio_context") or []:
 		call_plugin_hook(path, ls)
 	ls["slots"] = build_slots(ls)
 	return ls
