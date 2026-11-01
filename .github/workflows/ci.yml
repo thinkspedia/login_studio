@@ -94,6 +94,11 @@ jobs:
           sudo apt update
           sudo apt-get install mariadb-client
 
+      # The runner's MariaDB 11.8 client requires TLS by default; the 10.6 server has none
+      - name: Allow non-TLS MariaDB client connections
+        if: matrix.mariadb == '10.6'
+        run: printf '[client]\nskip-ssl\n' > ~/.my.cnf
+
       - name: Setup
         run: |
           pip install frappe-bench
