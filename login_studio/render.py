@@ -174,7 +174,8 @@ def read_asset(filename: str) -> str:
 
 
 def log_render_error() -> None:
-	if frappe.cache.get_value(ERROR_LOG_CACHE_KEY):
+	# expires=True: on v15 a plain get_value caches the miss in frappe.local.cache, hiding the setex below
+	if frappe.cache.get_value(ERROR_LOG_CACHE_KEY, expires=True):
 		return
 	frappe.cache.set_value(ERROR_LOG_CACHE_KEY, 1, expires_in_sec=ERROR_LOG_INTERVAL)
 	frappe.log_error(title="Login Studio: layout render failed")
