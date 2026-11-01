@@ -9,8 +9,10 @@ sitemap = 0
 
 
 def get_context(context):
-	# /login redirects signed-in users away, so layouts are previewed here with a sample form
-	frappe.only_for("System Manager")
+	# /login redirects signed-in users away, so layouts are previewed here with a sample form.
+	# Not frappe.only_for: on v15 it lets everyone through while tests run.
+	if "System Manager" not in frappe.get_roles():
+		raise frappe.PermissionError
 
 	settings = frappe.get_single("Login Studio Settings")
 	name = frappe.form_dict.get("layout") or settings.active_layout
