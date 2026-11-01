@@ -111,6 +111,11 @@ jobs:
           bench setup requirements --dev
           bench new-site --db-root-password root --admin-password admin test_site
           bench --site test_site install-app login_studio
+          # The example plugin exercises every plugin hook in the integration tests
+          cp -r $GITHUB_WORKSPACE/examples/login_studio_plugin_example apps/
+          ./env/bin/pip install -e apps/login_studio_plugin_example
+          ./env/bin/python -c "p='sites/apps.txt'; a=open(p).read().split(); open(p,'w').write('\n'.join(a + ['login_studio_plugin_example']) + '\n')"
+          bench --site test_site install-app login_studio_plugin_example
           bench build
         env:
           CI: 'Yes'

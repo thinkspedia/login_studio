@@ -1,17 +1,28 @@
 import frappe
 
-from login_studio.layouts import sync_standard_layouts
+from login_studio.layouts import remove_app_layouts, sync_layouts
 
 DEFAULT_LAYOUT = "split_hero"
 
 
 def after_install():
-	sync_standard_layouts()
+	sync_layouts()
 	set_default_layout()
 
 
 def after_migrate():
-	sync_standard_layouts()
+	sync_layouts()
+
+
+def after_app_install(app_name):
+	"""Pick up a plugin app's layouts as soon as it is installed, not only on the next migrate."""
+	if app_name != "login_studio":
+		sync_layouts(app_name)
+
+
+def before_app_uninstall(app_name):
+	if app_name != "login_studio":
+		remove_app_layouts(app_name)
 
 
 def set_default_layout():

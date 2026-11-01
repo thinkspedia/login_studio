@@ -1,0 +1,17 @@
+[project]
+name = "login_studio_plugin_example"
+authors = [
+    { name = "Thinkspedia", email = "helpdesk@thinkspedia.com"}
+]
+description = "Example plugin for Login Studio: a layout, a context hook, a slot and a stylesheet"
+requires-python = ">=3.10"
+readme = "README.md"
+license = { text = "MIT" }
+dynamic = ["version"]
+dependencies = [
+    # "frappe>=15.0.0,<17.0.0" and login_studio, installed and managed by bench.
+]
+
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"

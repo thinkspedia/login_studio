@@ -4,13 +4,17 @@
 		<aside class="ls-glass__hero">
 			<h1 class="ls-glass__title">{{ ls.brand.name }}</h1>
 			{% if ls.brand.tagline %}<p class="ls-glass__tagline">{{ ls.brand.tagline }}</p>{% endif %}
+			{{ ls_slot("hero") }}
 			{% if ls.versions %}<div class="ls-glass__versions">{{ ls_versions() }}</div>{% endif %}
 		</aside>
 		<section class="ls-glass__panel">
 			{% if ls.brand.logo %}<div class="ls-glass__logo">{{ ls_logo() }}</div>{% endif %}
+			{{ ls_slot("above_form") }}
 			{{ login_form }}
+			{{ ls_slot("below_form") }}
 			<footer class="ls-glass__footer">
 				{% if ls.versions %}<div class="ls-glass__versions-compact">{{ ls_versions() }}</div>{% endif %}
+				{{ ls_slot("footer") }}
 				{{ ls_powered_by() }}
 			</footer>
 		</section>

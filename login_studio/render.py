@@ -24,6 +24,9 @@ FORM_TOKEN = "<!--login-studio:login-form-->"
 MAX_TEMPLATE_SIZE = 100_000
 MAX_CSS_SIZE = 200_000
 
+# Places a layout offers to plugins (login_studio_slots hook), rendered with {{ ls_slot("name") }}
+SLOT_NAMES = ("hero", "above_form", "below_form", "footer")
+
 ERROR_LOG_CACHE_KEY = "login_studio:last_render_error"
 ERROR_LOG_INTERVAL = 300  # seconds; a broken layout must not flood Error Log on every visit
 
@@ -61,6 +64,7 @@ def build_page(settings, layout, stock_logo: str | None = None) -> dict:
 		"after": Markup(after),
 		"css": Markup(build_css(settings, layout)),
 		"logo": ls["brand"]["logo"],
+		"assets": get_plugin_assets(),
 	}
 
 
@@ -94,13 +98,17 @@ def validate_layout(template: str, css: str | None) -> None:
 
 
 def build_layout_context(settings, stock_logo: str | None = None) -> dict:
-	"""The ``ls`` object available to layout templates. String values are HTML-escaped."""
+	"""The ``ls`` object available to layout templates. String values are HTML-escaped.
+
+	Plugin ``login_studio_context`` hooks may then change it in place (``ls["extra"]`` is
+	theirs), and ``login_studio_slots`` hooks fill ``ls["slots"]``.
+	"""
 	lang = frappe.local.lang or "en"
 	logo = settings.logo or stock_logo
 	show_powered_by = bool(settings.show_powered_by and settings.powered_by_text)
 	powered_by_url = settings.powered_by_url if branding.is_http_url(settings.powered_by_url) else None
 
-	return {
+	ls = {
 		"brand": {
 			"name": escape(branding.get_brand_name(settings)),
 			"tagline": escape(settings.tagline or ""),
@@ -118,7 +126,51 @@ def build_layout_context(settings, stock_logo: str | None = None) -> dict:
 		],
 		"lang": escape(lang),
 		"dir": branding.text_direction(lang),
+		"extra": {},
+		"slots": {},
 	}
+
+	for path in frappe.get_hooks("login_studio_context") or []:
+		call_plugin_hook(path, ls)
+	ls["slots"] = build_slots(ls)
+	return ls
+
+
+def build_slots(ls: dict) -> dict:
+	"""HTML from ``login_studio_slots`` hooks, by slot name. Plugin HTML is trusted: it is app code."""
+	slots = {}
+	for name, paths in (frappe.get_hooks("login_studio_slots") or {}).items():
+		if name not in SLOT_NAMES:
+			continue
+		parts = [call_plugin_hook(path, ls) for path in (paths if isinstance(paths, list) else [paths])]
+		html = Markup("").join(Markup(str(part)) for part in parts if part)
+		if html:
+			slots[name] = html
+	return slots
+
+
+def get_plugin_assets() -> dict:
+	"""CSS / JS URLs from ``login_studio_assets`` hooks. Only same-site paths and https URLs."""
+	hooks = frappe.get_hooks("login_studio_assets") or {}
+	return {kind: [escape(url) for url in hooks.get(kind, []) if is_asset_url(url)] for kind in ("css", "js")}
+
+
+def is_asset_url(url) -> bool:
+	if not isinstance(url, str):
+		return False
+	return (url.startswith("/") and not url.startswith("//")) or url.startswith("https://")
+
+
+def call_plugin_hook(path: str, *args):
+	"""Run one plugin hook; a failing plugin is logged and skipped so the page still renders."""
+	try:
+		return frappe.get_attr(path)(*args)
+	except Exception:
+		cache_key = f"login_studio:hook_error:{path}"
+		if not frappe.cache.get_value(cache_key, expires=True):
+			frappe.cache.set_value(cache_key, 1, expires_in_sec=ERROR_LOG_INTERVAL)
+			frappe.log_error(title=f"Login Studio: plugin hook {path} failed")
+		return None
 
 
 def render_layout(template: str, ls: dict) -> str:
@@ -138,6 +190,7 @@ def render_layout(template: str, ls: dict) -> str:
 		"ls_powered_by": partials.powered_by,
 		"ls_versions": partials.versions,
 		"ls_background": partials.background,
+		"ls_slot": partials.slot,
 	}
 	with safe_render_flags():
 		return get_jenv().from_string(template).render(template_context)
@@ -178,6 +231,12 @@ class Partials:
 		return Markup('<ul class="ls-versions" aria-label="{}">{}</ul>').format(
 			frappe._("App versions"), items
 		)
+
+	def slot(self, name: str) -> Markup:
+		html = self.ls["slots"].get(name)
+		if not html:
+			return Markup("")
+		return Markup('<div class="ls-slot ls-slot--{}">{}</div>').format(name, html)
 
 	def background(self) -> Markup:
 		if self.ls["brand"]["background"]:

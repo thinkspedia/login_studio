@@ -104,13 +104,13 @@ The full layout contract (variables, partials, CSS custom properties, rules) is 
 Extend Login Studio from your own app's `hooks.py`:
 
 ```python
-login_studio_layouts = ["my_app/login_layouts"]           # ship extra layouts
+login_studio_layouts = ["login_layouts"]                 # ship extra layouts
 login_studio_context = ["my_app.login.add_context"]       # add data to the template
 login_studio_slots = {"below_form": "my_app.login.notice"}  # inject HTML into named slots
 login_studio_assets = {"css": ["/assets/my_app/css/login.css"]}
 ```
 
-The plugin guide will be documented in `docs/plugins.md`.
+The plugin guide is in [docs/plugins.md](docs/plugins.md), with a working example app in [examples/login_studio_plugin_example](examples/login_studio_plugin_example).
 
 ## Roadmap
 

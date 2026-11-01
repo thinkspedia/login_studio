@@ -6,7 +6,10 @@
 
 {% block head_include %}
 {{ include_style('login.bundle.css') }}
-{% if ls %}<style id="login-studio-css">{{ ls.css }}</style>{% endif %}
+{% if ls %}
+<style id="login-studio-css">{{ ls.css }}</style>
+{% for href in ls.assets.css %}<link rel="stylesheet" href="{{ href }}">{% endfor %}
+{% endif %}
 <style>
 	.ls-preview-badge {
 		position: fixed;

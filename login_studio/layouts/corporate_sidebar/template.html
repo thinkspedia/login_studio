@@ -4,9 +4,10 @@
 			{% if ls.brand.logo %}{{ ls_logo() }}{% endif %}
 			<p class="ls-sidebar__name">{{ ls.brand.name }}</p>
 		</header>
-		<div class="ls-sidebar__form">{{ login_form }}</div>
+		<div class="ls-sidebar__form">{{ ls_slot("above_form") }}{{ login_form }}{{ ls_slot("below_form") }}</div>
 		<footer class="ls-sidebar__footer">
 			<div class="ls-sidebar__versions-compact">{{ ls_versions() }}</div>
+			{{ ls_slot("footer") }}
 			{{ ls_powered_by() }}
 		</footer>
 	</section>
@@ -19,6 +20,7 @@
 			{% else %}
 			<h1 class="ls-sidebar__headline">{{ ls.brand.name }}</h1>
 			{% endif %}
+			{{ ls_slot("hero") }}
 			{% if ls.versions %}<div class="ls-sidebar__versions">{{ ls_versions() }}</div>{% endif %}
 		</div>
 	</aside>
