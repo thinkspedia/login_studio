@@ -6,6 +6,7 @@ from frappe import _
 from frappe.model.document import Document
 
 from login_studio import branding
+from login_studio.render import MAX_CSS_SIZE, check_css
 
 
 class LoginStudioSettings(Document):
@@ -19,6 +20,10 @@ class LoginStudioSettings(Document):
 
 		if self.powered_by_url and not branding.is_http_url(self.powered_by_url):
 			frappe.throw(_("Powered By URL must start with https:// or http://"))
+
+		check_css(self.custom_css, _("Custom CSS"))
+		if len(self.custom_css or "") > MAX_CSS_SIZE:
+			frappe.throw(_("Custom CSS is larger than {0} KB.").format(MAX_CSS_SIZE // 1000))
 
 		if self.enabled and self.active_layout:
 			if not frappe.db.get_value("Login Layout", self.active_layout, "enabled"):

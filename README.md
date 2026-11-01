@@ -97,7 +97,7 @@ A layout is a Jinja template plus CSS. The only required piece is the stock logi
 @media (min-width: 992px) { .my-login { grid-template-columns: 1fr 1fr; } }
 ```
 
-The full layout contract (variables, macros, CSS custom properties) will be documented in `docs/layout-contract.md`.
+The full layout contract (variables, partials, CSS custom properties, rules) is in [docs/layout-contract.md](docs/layout-contract.md).
 
 ## Plugin API at a glance
 

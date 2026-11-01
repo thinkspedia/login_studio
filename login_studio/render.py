@@ -11,13 +11,18 @@ Any failure returns ``None`` and the page falls back to the stock login.
 import os
 
 import frappe
+from frappe import _
 from frappe.utils.jinja import get_jenv, safe_render_flags
+from jinja2 import TemplateSyntaxError
 from markupsafe import Markup, escape
 
 from login_studio import branding
 from login_studio.layouts import STANDARD_LAYOUTS_PATH
 
 FORM_TOKEN = "<!--login-studio:login-form-->"
+
+MAX_TEMPLATE_SIZE = 100_000
+MAX_CSS_SIZE = 200_000
 
 ERROR_LOG_CACHE_KEY = "login_studio:last_render_error"
 ERROR_LOG_INTERVAL = 300  # seconds; a broken layout must not flood Error Log on every visit
@@ -37,21 +42,55 @@ def get_page_context(context) -> dict | None:
 		if not layout.enabled:
 			return None
 
-		ls = build_layout_context(settings, stock_logo=context.get("logo"))
-		html = render_layout(layout.template, ls)
-		if html.count(FORM_TOKEN) != 1:
-			raise ValueError(f"Login layout {layout.name} must output {{{{ login_form }}}} exactly once")
-		before, after = html.split(FORM_TOKEN)
-
-		return {
-			"before": Markup(before),
-			"after": Markup(after),
-			"css": Markup(build_css(settings, layout)),
-			"logo": ls["brand"]["logo"],
-		}
+		return build_page(settings, layout, stock_logo=context.get("logo"))
 	except Exception:
 		log_render_error()
 		return None
+
+
+def build_page(settings, layout, stock_logo: str | None = None) -> dict:
+	"""Render ``layout`` with ``settings``. Raises on any error; callers decide how to fail."""
+	ls = build_layout_context(settings, stock_logo=stock_logo)
+	html = render_layout(layout.template, ls)
+	if html.count(FORM_TOKEN) != 1:
+		raise ValueError(_("The template must output {0} exactly once.").format("{{ login_form }}"))
+	before, after = html.split(FORM_TOKEN)
+
+	return {
+		"before": Markup(before),
+		"after": Markup(after),
+		"css": Markup(build_css(settings, layout)),
+		"logo": ls["brand"]["logo"],
+	}
+
+
+def check_css(css: str | None, label: str) -> None:
+	"""CSS is placed inside a <style> element, so it must not be able to close it."""
+	if css and "</" in css:
+		frappe.throw(_("{0} cannot contain {1}.").format(label, "<code>&lt;/</code>"))
+
+
+def validate_layout(template: str, css: str | None) -> None:
+	"""Save-time checks for a custom layout: size, CSS, and a real render with the current settings."""
+	if len(template or "") > MAX_TEMPLATE_SIZE:
+		frappe.throw(_("The template is larger than {0} KB.").format(MAX_TEMPLATE_SIZE // 1000))
+	if len(css or "") > MAX_CSS_SIZE:
+		frappe.throw(_("The CSS is larger than {0} KB.").format(MAX_CSS_SIZE // 1000))
+	check_css(css, _("CSS"))
+
+	settings = frappe.get_single("Login Studio Settings")
+	# Exercise the optional branches too, so a typo inside {% if ls.versions %} is caught now
+	settings.tagline = settings.tagline or "Tagline"
+	settings.show_versions = 1
+	try:
+		html = render_layout(template, build_layout_context(settings))
+	except TemplateSyntaxError as e:
+		frappe.throw(_("Template syntax error on line {0}: {1}").format(e.lineno, escape(e.message)))
+	except Exception as e:
+		frappe.throw(_("The template failed to render: {0}").format(escape(str(e))))
+
+	if html.count(FORM_TOKEN) != 1:
+		frappe.throw(_("The template must output {0} exactly once.").format("<code>{{ login_form }}</code>"))
 
 
 def build_layout_context(settings, stock_logo: str | None = None) -> dict:
@@ -164,7 +203,9 @@ def build_css(settings, layout) -> str:
 		),
 	}
 	root = ":root{" + "".join(f"{name}:{value};" for name, value in variables.items()) + "}"
-	return "\n".join([root, read_asset("base.css"), layout.css or ""])
+	# </ is rejected on save; dropping it here too keeps a hand-edited DB value from closing <style>
+	parts = [root, read_asset("base.css"), layout.css or "", settings.custom_css or ""]
+	return "\n".join(part.replace("</", "<\\/") for part in parts)
 
 
 SHARED_ASSETS = ("base.css", "background.svg")

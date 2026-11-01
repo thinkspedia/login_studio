@@ -4,7 +4,7 @@ from login_studio import render
 from login_studio.layouts import get_standard_layout_names, sync_standard_layouts
 from login_studio.tests.utils import IntegrationTestCase
 
-TEST_LAYOUT = "_test_login_studio_layout"
+TEST_LAYOUT = "test_login_studio_layout"
 
 
 class TestRender(IntegrationTestCase):
@@ -35,10 +35,19 @@ class TestRender(IntegrationTestCase):
 		self.settings.save()
 
 	def use_custom_layout(self, template):
+		"""Activate a custom layout with ``template`` written straight to the DB: broken templates are
+		rejected on save, but the page must still survive one that got there anyway."""
 		layout = frappe.get_doc(
-			{"doctype": "Login Layout", "layout_name": TEST_LAYOUT, "title": "Test", "template": template}
+			{
+				"doctype": "Login Layout",
+				"layout_name": TEST_LAYOUT,
+				"title": "Test",
+				"template": "{{ login_form }}",
+			}
 		).insert()
 		self.update_settings(enabled=1, active_layout=layout.name)
+		frappe.db.set_value("Login Layout", TEST_LAYOUT, "template", template)
+		frappe.clear_document_cache("Login Layout", TEST_LAYOUT)
 
 	def test_renders_active_layout_around_the_form(self):
 		self.update_settings(enabled=1, active_layout="split_hero", brand_name="Acme")
@@ -92,8 +101,9 @@ class TestRender(IntegrationTestCase):
 		self.use_custom_layout("{# login_form #}<div>no form</div>")
 		self.assertIsNone(render.get_page_context(frappe._dict()))
 
-		frappe.db.set_value("Login Layout", TEST_LAYOUT, "template", "{{ login_form }}{{ login_form }}")
-		frappe.clear_document_cache("Login Layout", TEST_LAYOUT)
+		self.update_settings(active_layout="split_hero")
+		frappe.delete_doc("Login Layout", TEST_LAYOUT, force=True)
+		self.use_custom_layout("{{ login_form }}{{ login_form }}")
 		self.assertIsNone(render.get_page_context(frappe._dict()))
 
 	def test_sandbox_blocks_dunder_access(self):

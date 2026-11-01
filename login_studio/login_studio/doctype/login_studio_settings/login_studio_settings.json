@@ -30,7 +30,9 @@
   "powered_by_url",
   "column_break_footer",
   "show_versions",
-  "version_apps"
+  "version_apps",
+  "section_custom_css",
+  "custom_css"
  ],
  "fields": [
   {
@@ -182,13 +184,26 @@
    "fieldtype": "Select",
    "label": "Heading Font",
    "options": "Same as Font\nSource Serif"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_custom_css",
+   "fieldtype": "Section Break",
+   "label": "Custom CSS"
+  },
+  {
+   "description": "Applied after the active layout's CSS, on every layout. Changes are live on save.",
+   "fieldname": "custom_css",
+   "fieldtype": "Code",
+   "label": "Custom CSS",
+   "options": "CSS"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-01 09:17:10.896118",
+ "modified": "2026-11-01 17:10:40.980222",
  "modified_by": "Administrator",
  "module": "Login Studio",
  "name": "Login Studio Settings",

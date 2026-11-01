@@ -13,6 +13,7 @@
   "column_break_meta",
   "source",
   "source_app",
+  "based_on",
   "enabled",
   "section_description",
   "description",
@@ -89,12 +90,19 @@
    "fieldtype": "Code",
    "label": "CSS",
    "options": "CSS"
+  },
+  {
+   "fieldname": "based_on",
+   "fieldtype": "Link",
+   "label": "Based On",
+   "options": "Login Layout",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2026-11-01 08:41:19.287142",
+ "modified": "2026-11-01 17:10:39.093382",
  "modified_by": "Administrator",
  "module": "Login Studio",
  "name": "Login Layout",

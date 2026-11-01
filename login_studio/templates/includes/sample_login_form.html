@@ -1,0 +1,28 @@
+{#- Static stand-in for the stock login form, used only by /login-studio/preview. Same wrapper and classes
+    as frappe/www/login.html (v15 and v16), so layout CSS applies the same way; nothing here submits. -#}
+<div>
+	<section class="for-login">
+		<div class="login-content page-card">
+			<div class="page-card-head">
+				<h4>{{ _("Sign In") }}</h4>
+				<p class="page-card-subtitle">{{ _("Welcome! Please sign in to continue.") }}</p>
+			</div>
+			<form class="form-signin form-login" role="form" onsubmit="return false">
+				<div class="page-card-body">
+					<div class="form-group">
+						<label for="ls_preview_email">{{ _("Email") }}</label>
+						<input type="text" id="ls_preview_email" class="form-control" placeholder="{{ _('jane@example.com') }}">
+					</div>
+					<div class="form-group">
+						<label for="ls_preview_password">{{ _("Password") }}</label>
+						<input type="password" id="ls_preview_password" class="form-control" placeholder="••••••••">
+					</div>
+					<p class="text-right"><a href="#">{{ _("Forgot password?") }}</a></p>
+				</div>
+				<div class="page-card-actions">
+					<button type="button" class="btn btn-sm btn-primary btn-block es-button w-full" data-variant="solid">{{ _("Continue") }}</button>
+				</div>
+			</form>
+		</div>
+	</section>
+</div>
