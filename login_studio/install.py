@@ -1,5 +1,6 @@
 import frappe
 
+from login_studio.compat import seed_desktop_icons
 from login_studio.layouts import remove_app_layouts, sync_layouts
 
 DEFAULT_LAYOUT = "split_hero"
@@ -12,6 +13,7 @@ def after_install():
 
 def after_migrate():
 	sync_layouts()
+	seed_desktop_icons()
 
 
 def after_app_install(app_name):
