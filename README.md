@@ -63,13 +63,54 @@ ERPNext and HRMS are optional — Login Studio only requires Frappe.
 
 ## Installation
 
+### With bench
+
 ```bash
-# Pick the branch that matches your Frappe version
+# Pick the branch that matches your Frappe version: version-16 or version-15
 bench get-app https://github.com/thinkspedia/login_studio --branch version-16
 bench --site your-site.com install-app login_studio
 ```
 
-Then open **Login Studio Settings** in Desk, choose a layout and set your branding.
+### With Frappe Pilot
+
+Login Studio is listed on the [Frappe Marketplace](https://github.com/frappe/marketplace), so Pilot can fetch it by name. Pilot benches run Frappe v16 or later.
+
+```bash
+pilot -b your-bench get-app login_studio
+pilot -b your-bench install-app your-site.com login_studio
+```
+
+Or install it from **Marketplace** in the Pilot Admin UI. To install straight from GitHub instead:
+
+```bash
+pilot -b your-bench get-app https://github.com/thinkspedia/login_studio --branch version-16
+```
+
+Then open **Login Studio** from the apps screen (or **Login Studio Settings** in Desk), choose a layout and set your branding.
+
+### Updating
+
+```bash
+# bench
+bench update --apps login_studio
+
+# Pilot: update from the Admin UI, then migrate the site
+pilot -b your-bench frappe --site your-site.com migrate
+```
+
+### Uninstalling
+
+Uninstalling restores the stock Frappe login page and drops Login Studio's settings and layouts, including custom layouts. Export any custom layout you want to keep first.
+
+```bash
+# bench: remove from the site, then from the bench
+bench --site your-site.com uninstall-app login_studio
+bench remove-app login_studio
+
+# Pilot: removes the app from the bench too once no site uses it
+# (add --keep-on-bench to keep it)
+pilot -b your-bench uninstall-app your-site.com login_studio
+```
 
 ### Emergency switch
 
