@@ -1,6 +1,6 @@
 """Fail CI on the Semgrep findings that would block a Frappe Marketplace release.
 
-Reads the JSON report of `semgrep scan` run with frappe/marketplace's
+Reads, on stdin, the JSON report of `semgrep scan` run with frappe/marketplace's
 validation/semgrep-rules and applies the marketplace's own blocking rule: a
 finding blocks when its rule sets `is_blocking: true` or its severity maps to
 Critical or Major. Others are reported as warnings and never fail the job.
@@ -22,9 +22,8 @@ SEVERITY_LABELS = {
 BLOCKING = {"Critical", "Major"}
 
 
-def main(report_path: str) -> int:
-	with open(report_path) as f:
-		report = json.load(f)
+def main() -> int:
+	report = json.load(sys.stdin)
 
 	blocking = 0
 	for finding in report.get("results", []):
@@ -50,4 +49,4 @@ def main(report_path: str) -> int:
 
 
 if __name__ == "__main__":
-	sys.exit(main(sys.argv[1]))
+	sys.exit(main())

@@ -42,7 +42,7 @@ jobs:
           git -C "$rules" sparse-checkout set validation/semgrep-rules
           semgrep scan --config "$rules/validation/semgrep-rules" --json --quiet \
             --exclude frappe-semgrep-rules --output "$RUNNER_TEMP/marketplace-semgrep.json" .
-          python3 .github/scripts/marketplace_semgrep_gate.py "$RUNNER_TEMP/marketplace-semgrep.json"
+          python3 .github/scripts/marketplace_semgrep_gate.py < "$RUNNER_TEMP/marketplace-semgrep.json"
 
   deps-vulnerable-check:
     name: 'Vulnerable Dependency Check'
