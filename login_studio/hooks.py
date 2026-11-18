@@ -10,16 +10,22 @@ app_license = "mit"
 
 # required_apps = []
 
+# Underscored: every public module-level name in hooks.py is read as a hook
+from login_studio.compat import DESK_PATH as _DESK_PATH
+
+app_logo_url = "/assets/login_studio/images/login-studio-logo.svg"
+app_home = f"{_DESK_PATH}/login-studio"
+
 # Each item in the list will be shown as an app in the apps page
-# add_to_apps_screen = [
-# 	{
-# 		"name": "login_studio",
-# 		"logo": "/assets/login_studio/logo.png",
-# 		"title": "Login Studio",
-# 		"route": "/login_studio",
-# 		"has_permission": "login_studio.api.permission.has_app_permission",
-# 	}
-# ]
+add_to_apps_screen = [
+	{
+		"name": app_name,
+		"logo": app_logo_url,
+		"title": app_title,
+		"route": app_home,
+		"has_permission": "login_studio.permissions.has_app_permission",
+	}
+]
 
 # The dock, the rail down the left of the desk, is a document rather than a hook. Author it in
 # Manage Dock on a developer-mode site and press Export to App, and it is written to

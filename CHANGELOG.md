@@ -2,6 +2,13 @@
 
 All notable changes to Login Studio are listed here. The project follows [Semantic Versioning](https://semver.org/); the public plugin API (`login_studio.api` and the `login_studio_*` hooks) only changes incompatibly in a new major version.
 
+## [Unreleased]
+
+### Fixed
+
+- Login Studio now has a tile on the apps screen (v15 `/apps`, v16 `/desk`) for System Managers, opening a new Login Studio workspace with shortcuts to Login Studio Settings and Login Layout. Sites that already have Login Studio installed get the tile on their next `bench migrate`.
+- `pyproject.toml` declares the supported Frappe versions, which Frappe Pilot requires on `get-app`.
+
 ## [0.1.0] - 2026-11-01
 
 First release. Supports Frappe / ERPNext v15 and v16.

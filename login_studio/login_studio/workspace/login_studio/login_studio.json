@@ -1,0 +1,51 @@
+{
+ "app": "login_studio",
+ "charts": [],
+ "content": "[{\"id\":\"ls-header\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\"><b>Login Studio</b></span>\",\"col\":12}},{\"id\":\"ls-settings\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Login Studio Settings\",\"col\":3}},{\"id\":\"ls-layouts\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Login Layout\",\"col\":3}}]",
+ "creation": "2026-11-18 00:00:00.000000",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "lock",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Login-Studio",
+ "links": [],
+ "modified": "2026-11-18 00:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Login Studio",
+ "name": "Login-Studio",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "restrict_to_domain": "",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ],
+ "sequence_id": 50.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "",
+   "label": "Login Studio Settings",
+   "link_to": "Login Studio Settings",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Login Layout",
+   "link_to": "Login Layout",
+   "type": "DocType"
+  }
+ ],
+ "standard": 1,
+ "title": "Login Studio",
+ "type": "Workspace"
+}
