@@ -1,0 +1,117 @@
+name: Publish to Frappe Marketplace
+
+# Advertises a release of Login Studio on the Frappe Marketplace
+# (github.com/frappe/marketplace), the registry Pilot reads for `get-app`.
+#
+# frappe/marketplace's own reusable publish workflow pushes its branch to
+# frappe/marketplace itself, which only Frappe's apps can do. This one does the
+# same work from a fork: it adds the release with the registry's
+# tools/add_release.py, pushes the branch to the fork and opens (or updates) one
+# rolling PR. The marketplace check installs the release on a Pilot bench and
+# merges the PR on its own when it passes.
+#
+# Needs:
+#   secrets.MARKETPLACE_PR_TOKEN  classic PAT with `public_repo`, owned by the fork's owner
+#   vars.MARKETPLACE_FORK         optional, the fork (default tomysmile/marketplace)
+#
+# The released commit must already be on version-16: fast-forward the release
+# branches before publishing the GitHub release.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Tag or commit to advertise (default the head of version-16)
+        required: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-marketplace
+  cancel-in-progress: false
+
+env:
+  APP: login_studio
+  BRANCH: version-16
+  CHANNEL: stable
+  UPSTREAM: frappe/marketplace
+  FORK: ${{ vars.MARKETPLACE_FORK || 'tomysmile/marketplace' }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the app
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.ref || 'version-16' }}
+          fetch-depth: 0
+          path: app
+          persist-credentials: false
+
+      - name: Resolve the commit
+        working-directory: app
+        run: |
+          commit=$(git rev-parse HEAD)
+          if ! git merge-base --is-ancestor "$commit" "origin/$BRANCH"; then
+            echo "::error::$commit is not on $BRANCH. Fast-forward $BRANCH to it, then re-run this workflow."
+            exit 1
+          fi
+          echo "COMMIT=$commit" >> "$GITHUB_ENV"
+
+      - name: Check out the registry
+        uses: actions/checkout@v6
+        with:
+          repository: ${{ env.UPSTREAM }}
+          ref: main
+          path: registry
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: Add the release entry
+        run: |
+          pip install -q packaging
+          python3 registry/tools/add_release.py --app-dir app --registry registry
+
+      - name: Open or update the pull request
+        working-directory: registry
+        env:
+          GH_TOKEN: ${{ secrets.MARKETPLACE_PR_TOKEN }}
+        run: |
+          if git diff --quiet; then
+            echo "Release already advertised, nothing to publish."
+            exit 0
+          fi
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::Set the MARKETPLACE_PR_TOKEN secret."
+            exit 1
+          fi
+
+          short="${COMMIT:0:8}"
+          branch="publish/$APP-$BRANCH"
+          owner="${FORK%%/*}"
+          title="feat($APP): advertise $short from $BRANCH"
+          body="Automated release published from ${GITHUB_REPOSITORY}@${COMMIT}. Later publishes from \`$BRANCH\` update this PR in place."
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -qB "$branch"
+          git commit -qam "feat($APP): advertise $short"
+          # Rebuilt from upstream main on every publish, so a force push is expected
+          git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${FORK}.git" "HEAD:refs/heads/$branch"
+
+          number=$(gh pr list --repo "$UPSTREAM" --state open --head "$branch" \
+            --json number,headRepositoryOwner \
+            --jq "map(select(.headRepositoryOwner.login == \"$owner\")) | .[0].number // empty")
+          if [ -n "$number" ]; then
+            gh pr edit "$number" --repo "$UPSTREAM" --title "$title" --body "$body"
+            echo "Updated $UPSTREAM#$number to $short."
+          else
+            gh pr create --repo "$UPSTREAM" --base main --head "$owner:$branch" --title "$title" --body "$body"
+          fi

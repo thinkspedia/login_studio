@@ -41,6 +41,16 @@ Create `login_studio/layouts/<name>/` with `layout.json`, `template.html` and `s
 
 Add `login_studio/translations/<language>.csv` with `source,translation,context` rows. Only translate strings Frappe does not already translate, so terms stay the same as in Desk.
 
+## Releasing
+
+For maintainers:
+
+1. Open a `chore: Release vX.Y.Z` PR into `develop` that bumps `__version__` in `login_studio/__init__.py`, dates the CHANGELOG entry and updates the README badge. Merge it once CI passes.
+2. Fast-forward `version-15` and `version-16` to `develop`.
+3. Publish the GitHub release `vX.Y.Z` on that commit.
+
+Publishing the release runs `.github/workflows/publish-marketplace.yml`, which opens a PR advertising the release on the [Frappe Marketplace](https://github.com/frappe/marketplace) from the `tomysmile/marketplace` fork, using the `MARKETPLACE_PR_TOKEN` secret (a classic token with `public_repo`). The marketplace check installs the release on a Pilot bench and merges the PR when it passes. To re-publish, run the workflow by hand from the Actions tab.
+
 ## License
 
 By contributing you agree that your contributions are licensed under the [MIT License](LICENSE).
