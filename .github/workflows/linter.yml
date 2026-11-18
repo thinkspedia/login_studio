@@ -33,6 +33,17 @@ jobs:
           pip install semgrep
           semgrep ci --config ./frappe-semgrep-rules/rules --config r/python.lang.correctness
 
+      # The rules frappe/marketplace scans every release with. A Critical or Major
+      # finding would hold a release back from the marketplace, so catch it here.
+      - name: Run Frappe Marketplace Semgrep rules
+        run: |
+          rules="$RUNNER_TEMP/marketplace"
+          git clone -q --depth 1 --filter=blob:none --sparse https://github.com/frappe/marketplace "$rules"
+          git -C "$rules" sparse-checkout set validation/semgrep-rules
+          semgrep scan --config "$rules/validation/semgrep-rules" --json --quiet \
+            --exclude frappe-semgrep-rules --output "$RUNNER_TEMP/marketplace-semgrep.json" .
+          python3 .github/scripts/marketplace_semgrep_gate.py "$RUNNER_TEMP/marketplace-semgrep.json"
+
   deps-vulnerable-check:
     name: 'Vulnerable Dependency Check'
     runs-on: ubuntu-latest
