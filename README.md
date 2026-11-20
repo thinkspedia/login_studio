@@ -10,7 +10,7 @@ Pick a layout, apply your brand, edit HTML/CSS live — no `bench build`, no for
 ![Frappe](https://img.shields.io/badge/Frappe-v15%20%7C%20v16-0089FF)
 ![ERPNext](https://img.shields.io/badge/ERPNext-v15%20%7C%20v16-0089FF)
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
-![Release](https://img.shields.io/badge/release-v0.1.1-2ea44f)
+![Release](https://img.shields.io/badge/release-v0.1.2-2ea44f)
 
 <img src="docs/images/layout-split_hero.webp" alt="Login Studio, Split Hero layout" width="860">
 
