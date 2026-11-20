@@ -2,6 +2,15 @@
 
 All notable changes to Login Studio are listed here. The project follows [Semantic Versioning](https://semver.org/); the public plugin API (`login_studio.api` and the `login_studio_*` hooks) only changes incompatibly in a new major version.
 
+## [0.1.2] - 2026-11-20
+
+No change to the app's code: this release carries the install docs and the Marketplace publishing.
+
+### Added
+
+- Docs: install, update and uninstall steps for bench and Frappe Pilot.
+- Releases are published to the Frappe Marketplace (the registry Pilot reads for `get-app`), and pull requests run the Marketplace's Semgrep rules.
+
 ## [0.1.1] - 2026-11-18
 
 ### Added
@@ -28,5 +37,6 @@ First release. Supports Frappe / ERPNext v15 and v16.
 - Safety: any layout or plugin error falls back to the stock login and is logged at most once every 5 minutes; `login_studio_disabled` site config kill switch; layout CSS cannot close its `<style>` element; no JavaScript is stored in the database.
 - Docs: [layout contract](docs/layout-contract.md) and [plugin guide](docs/plugins.md).
 
+[0.1.2]: https://github.com/thinkspedia/login_studio/releases/tag/v0.1.2
 [0.1.1]: https://github.com/thinkspedia/login_studio/releases/tag/v0.1.1
 [0.1.0]: https://github.com/thinkspedia/login_studio/releases/tag/v0.1.0
